@@ -1,0 +1,60 @@
+from model import Pos, Move, Location, SunLocation, MoonLocation, Thing, WingLocation
+
+# Base position
+center = Pos(410, 380)
+pos_reload = Pos(87, 60)
+pos_three = Pos(192, 122)
+pos_four = Pos(264, 122)
+pos_exclamation = Pos(336, 122)
+pos_end = Pos(408, 122)
+pos_trixie_square = Pos(415, 330)
+pos_inventory = Pos(783, 119)
+pos_next = Pos(728, 645)
+pos_muffin = Pos(134, 482)
+pos_agree = Pos(248, 661)
+pos_accept = Pos(577, 661)
+pos_forward = Pos(412, 485)
+back = Pos(413, 641)
+low_left = Pos(56, 641)
+low_right = Pos(765, 641)
+high_left = Pos(211, 483)
+high_right = Pos(614, 483)
+high_high_center = Pos(408, 129)
+pos_castel = Pos(211, 128)
+
+# Move
+left = Move(high_left, back)
+right = Move(high_right, back)
+up_castel = Move(pos_castel, back)
+forward = Move(pos_forward, back)
+rotate_left = Move(low_left, low_right)
+rotate_right = Move(low_right, low_left)
+inventory = Move(pos_inventory, pos_inventory)
+
+# Location
+home = Location([])
+field = Location([rotate_right])
+tree_house = SunLocation([forward] * 4)
+cake_house = SunLocation([forward, left])
+boulder = Location([rotate_left, forward, forward])
+vinyl_door = Location([forward, right])
+apple_tree = SunLocation([rotate_left] + [forward] * 6)
+station_desk = Location([forward, forward, right, left])
+fluttershy_hut = MoonLocation([rotate_right] * 2 + [forward] * 3)
+luna_viewpoint = WingLocation([rotate_right, up_castel, right])
+
+# Object positions
+scarecrow = Thing(field, Pos(491, 333))
+obj_balloon = Thing(field, Pos(250, 520))
+bottle = Thing(station_desk, Pos(79, 509))
+vinyl_disk = Thing(vinyl_door, Pos(508, 326))
+transformation_book = Thing(home, Pos(45, 457))
+twilight_book = Thing(tree_house, Pos(768, 334))
+fluttershy_lamp = Thing(fluttershy_hut, Pos(293, 89))
+fluttershy_window = Thing(fluttershy_hut, Pos(628, 340))
+
+# Ponies positions
+trixie = Thing(home, Pos(640, 510))
+mrs_cake = Thing(cake_house, Pos(640, 510))
+applejack = Thing(apple_tree, Pos(221, 499))
+station_desk_pony = Thing(station_desk, Pos(552, 341))
