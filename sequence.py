@@ -134,7 +134,7 @@ def learn_spell(st: State):
 
 
 @logboth
-def get_money(st: State, count):
+def get_money(st: State, target_count):
     """
     Go break the boulder and buck the tree.
     Requirements:
@@ -152,24 +152,29 @@ def get_money(st: State, count):
     print("bucking!")
     smash(43, 3.8) # Send 43 clicks to buck the tree
     center.click(); skip(2) # Talk to AJ
-    if count <= 1:
+    if target_count <= 1:
         accept(); skip(2)
         return
     agree() # Continue bucking
     print("bucking again!")
     smash(44, 3.8); skip(3) # Smash the click button to buck the tree
-    if count <= 2:
+    if target_count <= 2:
         accept(); skip(2)
         return
     agree() # Continue bucking
-    print("bucking again!")
+    print("bucking a third time!")
     smash(45, 3.8); skip(4) # Smash the click button to buck the tree
     accept(); skip(2) # Wanna go to the barn? -> No
-    if count <= 3:
+    if target_count <= 3:
         accept(); skip(2)
         return
-    else:
-        raise RuntimeError("count is too high")
+    count = 3
+    while count < target_count:
+        agree()
+        print(f"bucking a {count}th time")
+        smash(45, 3.8); skip(4)
+        count += 1
+    accept(); skip(2)
 
 
 @logboth
