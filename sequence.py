@@ -127,7 +127,7 @@ def learn_spell(st: State):
     agree()
     skip(12)
     encounter_trixie(st, 'twilight')
-    for k in [0, 0]:
+    for k in range(2):
         twilight_book.touch(st, 0)
         skip(2)
 

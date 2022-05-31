@@ -9,7 +9,8 @@ from util import logcall
 pg.FAILSAFE = True
 
 # Banned from Equestria (Daily) v1.5
-WINDOW_TITLE = 'Banned from Equestria (Daily)'
+# WINDOW_TITLE = 'Banned from Equestria (Daily)'
+WINDOW_TITLE = 'bfeq.swf'
 WINDOW_POS_OFFSET = Pair(0, 0)
 EXTRA_POS_OFFSET = Pair(-8, -8)
 
@@ -23,7 +24,7 @@ def place_window():
     x, y = WINDOW_POS_OFFSET
     cx, cy = EXTRA_POS_OFFSET
     browser_window.moveTo(x + cx, y + cy)
-    browser_window.resizeTo(newWidth=835, newHeight=820)
+    browser_window.resizeTo(newWidth=835, newHeight=700)
     browser_window.activate()
 
 
@@ -31,7 +32,8 @@ def place_window():
 def reload():
     """Reload the page and click through the introduction"""
     pos_reload.click()
-    fast(6.2, "intro") # A bit brutal, could use more refinements (using `sleep`)
+    pg.sleep(18)
+    fast(5.2, "intro") # A bit brutal, could use more refinements (using `sleep`)
 
 
 # Scenario
@@ -75,7 +77,8 @@ def twibook(st: State):
     get_trixie1(st)
     become(st, Pony.WING)
     tree_house.go(st)
-    # get_pinkie_pie(st)
+    skip()
+    get_pinkie_pie(st)
     Location(tree_house.path[:-1]).go(st)
 
 

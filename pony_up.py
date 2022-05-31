@@ -15,7 +15,7 @@ def intercourse(st: State, square: Pos, wait=0.8, click=0):
     square.click(); sleep(6.6)
     pos_exclamation.click(); sleep(wait)
     skip(click); sleep(.4)
-    pos_end.click(); sleep(5)
+    pos_end.click(); sleep(4.8)
     pos_next.click(); sleep(2.6)
     st.location = home
     st.day += 1
@@ -23,11 +23,10 @@ def intercourse(st: State, square: Pos, wait=0.8, click=0):
 
 @logboth
 def get_vinyl(st: State):
-    vinyl_disk.touch(st); sleep(3.5)
+    vinyl_disk.touch(st); sleep(2.5)
     skip(2)
     forward.do()
-    center.click()
-    sleep(18.5)
+    center.click(); sleep(18.5)
     intercourse(st, square=pos_four)
 
 
@@ -38,12 +37,9 @@ def get_trixie1(st: State):
     trixie.touch(st) # Zoom
     break_shield_trixie(st)
     skip()
-    pos_trixie_square.click()
-    sleep(3.2)
-    skip(5)
-    sleep(3)
-    skip(5)
-    sleep(3)
+    pos_trixie_square.click(); sleep(3.2)
+    skip(5); sleep(3)
+    skip(5); sleep(3)
     intercourse(st, square=pos_four, wait=3.2, click=5)
 
 

@@ -144,4 +144,4 @@ class Thing:
     def touch(self, st: State, wait: float = 0.4):
         self.location.go(st)
         self.position.click()
-        pg.sleep(wait)
+        pg.sleep(10 * wait)

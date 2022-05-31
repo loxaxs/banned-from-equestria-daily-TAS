@@ -55,6 +55,6 @@ fluttershy_window = Thing(fluttershy_hut, Pos(628, 340))
 
 # Ponies positions
 trixie = Thing(home, Pos(640, 510))
-mrs_cake = Thing(cake_house, Pos(640, 510))
+mrs_cake = Thing(cake_house, Pos(240, 310))
 applejack = Thing(apple_tree, Pos(221, 499))
 station_desk_pony = Thing(station_desk, Pos(552, 341))
