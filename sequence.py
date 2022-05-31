@@ -18,11 +18,12 @@ def become(st: State, pony: Pony):
     trixie.touch(st)
     encounter_trixie(st, 'trixie')
     skip(2)
+    sleep(1.5)
     if pony == Pony.HORN or (pony == Pony.EARTH and st.pony == Pony.HORN):
         accept()
     elif pony == Pony.WING or (pony == Pony.EARTH and st.pony == Pony.WING):
         agree()
-    sleep(1.5)
+    sleep(1.8)
     st.pony = pony
 
 
@@ -51,7 +52,7 @@ def bring_balloon(st: State):
     obj_balloon.touch(st, wait=0.2)
     skip()
     mrs_cake.touch(st, wait=0.2)
-    skip(6)
+    skip(5)
     with forward:
         center.click()
 
@@ -148,14 +149,17 @@ def get_money(st: State):
     apple_tree.go(st)
     applejack.touch(st) # talk to AJ
     sleep(0.5); skip(6) # talk...
-    print("bucking!"); sleep(.2) # Remove this sleep, it's useless
+    print("bucking!")
     smash(43, 3.8) # Send 43 clicks to buck the tree
     center.click(); skip(2) # Talk to AJ
     agree() # Continue bucking
-    print("bucking again!"); sleep(.2) # Remove this sleep too
-    smash(43, 3.8); skip(2) # Smash the click button to buck the tree
-    accept(); skip(2) # Two accepts? it must be an error -- though I'm pretty sure it works
-    accept(); skip(2)
+    print("bucking again!")
+    smash(44, 3.8); skip(3) # Smash the click button to buck the tree
+    agree() # Continue bucking
+    print("bucking again!")
+    smash(45, 3.8); skip(4) # Smash the click button to buck the tree
+    accept(); skip(2) # Wanna go to the barn? -> No
+    accept(); skip(2) # Earned _ bits continue? -> No
 
 
 @logboth

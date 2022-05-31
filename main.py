@@ -10,7 +10,7 @@ pg.FAILSAFE = True
 
 # Banned from Equestria (Daily) v1.5
 # WINDOW_TITLE = 'Banned from Equestria (Daily)'
-WINDOW_TITLE = 'bfeq.swf'
+WINDOW_TITLE = 'BFEQ'
 WINDOW_POS_OFFSET = Pair(0, 0)
 EXTRA_POS_OFFSET = Pair(-8, -8)
 
@@ -24,7 +24,7 @@ def place_window():
     x, y = WINDOW_POS_OFFSET
     cx, cy = EXTRA_POS_OFFSET
     browser_window.moveTo(x + cx, y + cy)
-    browser_window.resizeTo(newWidth=835, newHeight=700)
+    browser_window.resizeTo(newWidth=875, newHeight=710)
     browser_window.activate()
 
 
@@ -32,18 +32,16 @@ def place_window():
 def reload():
     """Reload the page and click through the introduction"""
     pos_reload.click()
-    pg.sleep(18)
-    fast(5.2, "intro") # A bit brutal, could use more refinements (using `sleep`)
+    pg.hotkey("ctrl", "pagedown")
+    fast(5.9, "intro") # A bit brutal, could use more refinements (using `sleep`)
 
 
 # Scenario
 def meet_luna(st: State):
     """Meet luna"""
-    place_window()
-    reload()
     become(st, Pony.HORN)
-    learn_spell(st)
     bring_balloon(st)
+    learn_spell(st)
     get_vinyl(st)
     get_trixie1(st)
     become(st, Pony.WING)
@@ -55,8 +53,6 @@ def meet_luna(st: State):
 
 def apple_road(st: State):
     """Get money and use it"""
-    place_window()
-    reload()
     learn_spell(st)
     get_money(st)
     quest_muffin(st)
@@ -67,8 +63,6 @@ def apple_road(st: State):
 
 def twibook(st: State):
     """Get twilight's book and give it back"""
-    place_window()
-    reload()
     bring_balloon(st)
     learn_spell(st)
     become(st, Pony.HORN)
@@ -77,9 +71,18 @@ def twibook(st: State):
     get_trixie1(st)
     become(st, Pony.WING)
     tree_house.go(st)
-    skip()
-    get_pinkie_pie(st)
-    Location(tree_house.path[:-1]).go(st)
+
+
+def trixie2(st: State):
+    """Get Trixie Twice"""
+    bring_balloon(st)
+    learn_spell(st)
+    become(st, Pony.HORN)
+    get_money(st)
+    get_transformation_book(st)
+    get_trixie1(st)
+    become(st, Pony.WING)
+    tree_house.go(st)
 
 
 try:
@@ -87,7 +90,12 @@ try:
     st = State(home, Pony.EARTH, 0, dict())
     beginning = time.time()
     print(f"{beginning=}")
-    twibook(st)
+    place_window()
+    reload()
+    become(st, Pony.HORN)
+    learn_spell(st)
+    get_money(st)
+    get_applejack(st)
     end = time.time()
     print(f"{end - beginning=}")
 except Exception:

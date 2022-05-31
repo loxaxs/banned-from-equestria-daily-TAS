@@ -1,3 +1,6 @@
+import sys
+
+
 def format_arg(a, kw):
     str_list = []
     for v in a: str_list.append(str(v))
@@ -33,14 +36,17 @@ def repeat(fun, sleep, duration, ending_message):
     """
     for k in range(int(duration)):
         print(k, end=" ")
+        sys.stdout.flush()
         for m in [0] * 10:
             fun()
             sleep(.1)
     print(int(duration), end=" ")
+    sys.stdout.flush()
     for m in [0] * (int(10 * duration) % 10):
         fun()
         sleep(.1)
     print(ending_message)
+    sys.stdout.flush()
 
 
 def remove_common_prefix(*list_list):

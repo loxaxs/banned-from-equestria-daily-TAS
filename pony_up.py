@@ -7,12 +7,12 @@ from util import logboth
 # See README.md for description of the role of this file
 
 @logboth
-def intercourse(st: State, square: Pos, wait=0.8, click=0):
+def intercourse(st: State, square: Pos, wait=0.8, waitload=6.6, click=0):
     """
     Manage clicking at the right time and places during the intercourse scene(s).
     Also update the state as needed.
     """
-    square.click(); sleep(6.6)
+    square.click(); sleep(waitload)
     pos_exclamation.click(); sleep(wait)
     skip(click); sleep(.4)
     pos_end.click(); sleep(4.8)
@@ -23,7 +23,7 @@ def intercourse(st: State, square: Pos, wait=0.8, click=0):
 
 @logboth
 def get_vinyl(st: State):
-    vinyl_disk.touch(st); sleep(2.5)
+    vinyl_disk.touch(st); sleep(2.9)
     skip(2)
     forward.do()
     center.click(); sleep(18.5)
@@ -49,6 +49,16 @@ def get_pinkie_pie(st: State):
     forward.do()
     sleep(10)
     intercourse(st, square=pos_four, wait=2)
+
+
+@logboth
+def get_applejack(st: State):
+    applejack.touch(st)
+    skip(4)
+    sleep(.5)
+    agree()
+    fast(7)
+    intercourse(st, square=pos_four, wait=16, waitload=19)
 
 
 @logboth

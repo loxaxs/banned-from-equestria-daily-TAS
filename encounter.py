@@ -12,15 +12,15 @@ def encounter_trixie(st: State, action):
         else: pass
     elif action == 'trixie':
         if 'trixie1' not in st.encounter:
-            skip(6)
+            skip(8)
             st.encounter['trixie1'] = True
         elif 'trixie2' not in st.encounter: pass
         elif st.encounter['trixie2'] == 'trixie': pass
         else:
             st.encounter['trixie2'] = 'trixie'
-            sleep(0.8)
-            skip(2)
-            sleep(3.5)
+            sleep(2)
+            skip(6)
+            sleep(4)
             skip()
 
 
