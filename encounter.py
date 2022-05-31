@@ -31,3 +31,12 @@ def break_shield_trixie(st: State):
         sleep(.8)
         skip(1)
         st.encounter['trixie_shield'] = True
+
+
+@logboth
+def break_second_shield_trixie(st: State):
+    if 'second_trixie_shield' not in st.encounter:
+        center.click()
+        sleep(.8)
+        skip(1)
+        st.encounter['second_trixie_shield'] = True

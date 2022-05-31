@@ -54,7 +54,7 @@ def meet_luna(st: State):
 def apple_road(st: State):
     """Get money and use it"""
     learn_spell(st)
-    get_money(st)
+    get_money(st, 1)
     quest_muffin(st)
     bottle.touch(st); skip()
     quest_ticket(st)
@@ -75,14 +75,13 @@ def twibook(st: State):
 
 def trixie2(st: State):
     """Get Trixie Twice"""
-    bring_balloon(st)
     learn_spell(st)
-    become(st, Pony.HORN)
-    get_money(st)
-    get_transformation_book(st)
+    dance_with_scarecrow(st)
     get_trixie1(st)
-    become(st, Pony.WING)
-    tree_house.go(st)
+    get_money(st, 1)
+    eat_muffin(st)
+    dance_with_scarecrow(st)
+    get_trixie2(st)
 
 
 try:
@@ -92,15 +91,19 @@ try:
     print(f"{beginning=}")
     place_window()
     reload()
-    become(st, Pony.HORN)
-    learn_spell(st)
-    get_money(st)
-    get_applejack(st)
+
+    trixie2(st)
+
     end = time.time()
     print(f"{end - beginning=}")
 except Exception:
-    import traceback, pdb
-    traceback.print_exc()
-    pdb.post_mortem()
+    end = time.time()
+    print(f"{end - beginning=}")
+    # import traceback, pdb
+    # traceback.print_exc()
+    # pdb.post_mortem()
+else:
+    end = time.time()
+    print(f"{end - beginning=}")
 finally:
     breakpoint()

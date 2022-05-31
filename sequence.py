@@ -18,12 +18,12 @@ def become(st: State, pony: Pony):
     trixie.touch(st)
     encounter_trixie(st, 'trixie')
     skip(2)
-    sleep(1.5)
+    sleep(.4)
     if pony == Pony.HORN or (pony == Pony.EARTH and st.pony == Pony.HORN):
         accept()
     elif pony == Pony.WING or (pony == Pony.EARTH and st.pony == Pony.WING):
         agree()
-    sleep(1.8)
+    sleep(1.6)
     st.pony = pony
 
 
@@ -134,7 +134,7 @@ def learn_spell(st: State):
 
 
 @logboth
-def get_money(st: State):
+def get_money(st: State, count):
     """
     Go break the boulder and buck the tree.
     Requirements:
@@ -152,14 +152,24 @@ def get_money(st: State):
     print("bucking!")
     smash(43, 3.8) # Send 43 clicks to buck the tree
     center.click(); skip(2) # Talk to AJ
+    if count <= 1:
+        accept(); skip(2)
+        return
     agree() # Continue bucking
     print("bucking again!")
     smash(44, 3.8); skip(3) # Smash the click button to buck the tree
+    if count <= 2:
+        accept(); skip(2)
+        return
     agree() # Continue bucking
     print("bucking again!")
     smash(45, 3.8); skip(4) # Smash the click button to buck the tree
     accept(); skip(2) # Wanna go to the barn? -> No
-    accept(); skip(2) # Earned _ bits continue? -> No
+    if count <= 3:
+        accept(); skip(2)
+        return
+    else:
+        raise RuntimeError("count is too high")
 
 
 @logboth
@@ -178,3 +188,24 @@ def get_transformation_book(st: State):
     transformation_book.touch(st)
     skip()
     back.click()
+
+
+@logboth
+def eat_muffin(st: State):
+    """
+    Go to Mrs Cake and buy a muffin.
+    - The inventory must be clear of balloon
+    - Time must be day
+    - The player has enough money to buy the muffin
+    """
+    mrs_cake.touch(st)
+    skip()
+    agree()
+    skip()
+    pos_inventory.click()
+    sleep(.2)
+    pos_muffin.click()
+    sleep(.2)
+    pos_inventory_yes.click()
+    skip()
+    pos_inventory.click()

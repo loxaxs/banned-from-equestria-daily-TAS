@@ -1,4 +1,4 @@
-from encounter import break_shield_trixie
+from encounter import break_shield_trixie, break_second_shield_trixie
 from fast import sleep, skip, accept, agree, fast
 from info import *
 from model import State, Pos, Pony
@@ -37,10 +37,22 @@ def get_trixie1(st: State):
     trixie.touch(st) # Zoom
     break_shield_trixie(st)
     skip()
-    pos_trixie_square.click(); sleep(3.2)
+    pos_trixie_square.click(); sleep(1)
     skip(5); sleep(3)
     skip(5); sleep(3)
     intercourse(st, square=pos_four, wait=3.2, click=5)
+
+
+@logboth
+def get_trixie2(st: State):
+    assert(st.pony == Pony.HORN)
+    st.assert_moon()
+    trixie.touch(st) # Zoom
+    break_second_shield_trixie(st)
+    skip()
+    pos_trixie_square.click()
+    fast(5)
+    intercourse(st, square=pos_four, wait=4, click=2)
 
 
 @logboth
