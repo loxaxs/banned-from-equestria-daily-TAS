@@ -37,9 +37,6 @@ class State:
     - location - the scene/location where Big Brian is. This is mostly managed by the Location object
     - pony - what kind of pony Big Brian is: Earth Pony, Pegasus or Unicorn
     - day - the number of elapsed half-days since the beginning of the game (starts at 0)
-    - encounter - a dictionary for all the rest (though it's mostly boolean values)
-        - it's most notably used to track weather we've talked to Trxie about one subject or another,
-          to compute / predict sleeps and skips correctly.
     """
     location: "Location"
     kind: PonyKind
@@ -64,11 +61,6 @@ class State:
 
     def assert_wing(self):
         assert self.kind == PonyKind.WING
-
-    def getting(self, pony_name):
-        assert pony_name not in self.gotten
-        print(f"getting {pony_name}")
-        self.gotten.add(pony_name)
 
 
 class Pos(Pair, RunnableInterface):

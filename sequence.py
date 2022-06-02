@@ -1,8 +1,12 @@
-from encounter import encounter_trixie
 from fast import smash
 from pony_up import *
 from util import logboth
 from model import PonyKind
+
+from fast import sleep, skip
+from info import center
+from model import State
+from util import logboth
 
 
 # Macro
@@ -38,7 +42,7 @@ def dance_with_scarecrow(st: State):
     scarecrow.touch(st)
     skip(3)
     agree()
-    sleep(8.8)
+    sleep(8.4)
     st.day += 1
 
 
@@ -134,6 +138,8 @@ def learn_spell(st: State):
     for k in range(2):
         twilight_book.touch(st, 0)
         skip(2)
+    st.status["magic_attack_a"] = True
+    st.status["shield_breaker_a"] = True
 
 
 @logboth
@@ -146,6 +152,7 @@ def get_money(st: State, target_count):
     - boulder has not been broken yet
     """
     st.assert_sun()
+    assert "magic_attack_a" in st.status
     become(st, PonyKind.HORN)
     boulder.go(st)
     center.click() # break boulder
@@ -154,20 +161,20 @@ def get_money(st: State, target_count):
     applejack.touch(st) # talk to AJ
     sleep(0.5); skip(6) # talk...
     print("bucking!")
-    smash(43, 3.8) # Send 43 clicks to buck the tree
+    smash(43, 3.3) # Send 43 clicks to buck the tree
     center.click(); skip(2) # Talk to AJ
     if target_count <= 1:
         accept(); skip(2)
         return
     agree() # Continue bucking
     print("bucking again!")
-    smash(44, 3.8); skip(3) # Smash the click button to buck the tree
+    smash(44, 3.3); skip(3) # Smash the click button to buck the tree
     if target_count <= 2:
         accept(); skip(2)
         return
     agree() # Continue bucking
     print("bucking a third time!")
-    smash(45, 3.8); skip(4) # Smash the click button to buck the tree
+    smash(45, 3.3); skip(4) # Smash the click button to buck the tree
     accept(); skip(2) # Wanna go to the barn? -> No
     if target_count <= 3:
         accept(); skip(2)
@@ -218,3 +225,46 @@ def eat_muffin(st: State):
     pos_inventory_yes.click()
     skip()
     pos_inventory.click()
+    st.status["shield_breaker_b"] = True
+
+
+@logboth
+def encounter_trixie(st: State, action):
+    if action == 'twilight':
+        if 'trixie2' not in st.status:
+            st.status['trixie2'] = 'twilight'
+        else: pass
+    elif action == 'trixie':
+        if 'trixie1' not in st.status:
+            skip(8)
+            st.status['trixie1'] = True
+        elif 'trixie2' not in st.status: pass
+        elif st.status['trixie2'] == 'trixie': pass
+        else:
+            st.status['trixie2'] = 'trixie'
+            sleep(2)
+            skip(6)
+            sleep(4)
+            skip()
+
+
+@logboth
+def break_shield_trixie(st: State):
+    st.assert_horn()
+    assert "shield_breaker_A" in st.status
+    if 'trixie_shield' not in st.status:
+        center.click()
+        sleep(.8)
+        skip(1)
+        st.status['trixie_shield'] = True
+
+
+@logboth
+def break_second_shield_trixie(st: State):
+    st.assert_horn()
+    assert "shield_breaker_B" in st.status
+    if 'second_trixie_shield' not in st.status:
+        center.click()
+        sleep(.8)
+        skip(1)
+        st.status['second_trixie_shield'] = True

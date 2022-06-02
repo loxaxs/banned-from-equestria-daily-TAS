@@ -27,12 +27,12 @@ def meet_luna(st: State):
     become(st, PonyKind.HORN)
     bring_balloon(st)
     learn_spell(st)
-    get_vinyl(st)
-    get_trixie1(st)
+    Vinyl().get(st)
+    Trixie().get(st)
     become(st, PonyKind.WING)
-    get_pinkie_pie(st)
-    get_fluttershy(st)
-    get_derpy(st)
+    PinkiePie().get(st)
+    Fluttershy().get(st)
+    Derpy().get(st)
     luna_viewpoint.go(st)
 
 
@@ -53,21 +53,22 @@ def twibook(st: State):
     become(st, PonyKind.HORN)
     dance_with_scarecrow(st)
     get_transformation_book(st)
-    get_trixie1(st)
+    Trixie().get(st)
     become(st, PonyKind.WING)
     tree_house.go(st)
 
 
-def trixie2(st: State):
+def trixieTwice(st: State):
     """Get Trixie Twice"""
     learn_spell(st)
     become(st, PonyKind.HORN)
-    dance_with_scarecrow(st)
-    get_trixie1(st)
     get_money(st, 1)
+    bring_balloon(st)
     eat_muffin(st)
     dance_with_scarecrow(st)
-    get_trixie2(st)
+    Trixie().get(st)
+    dance_with_scarecrow(st)
+    TrixieAgain().get(st)
 
 
 ###
@@ -79,7 +80,9 @@ try:
     place_window(window_title=WINDOW_TITLE)
     reload()
 
-    trixie2(st)
+    trixieTwice(st)
+except (KeyboardInterrupt, pg.FailSafeException):
+    print("interrupted")
 except Exception:
     end = time.time()
     print(f"{end - beginning=}")
