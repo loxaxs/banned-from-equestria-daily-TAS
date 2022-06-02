@@ -41,6 +41,7 @@ class State:
     location: "Location"
     kind: PonyKind
     day: int
+    money: int
     status: dict
     gotten: set
 

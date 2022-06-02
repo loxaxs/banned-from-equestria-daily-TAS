@@ -26,12 +26,29 @@ class Pony:
         skip(self.click) # skip dialogs
         sleep(.4)
         pos_end.click() # end square
-        sleep(4.8) # "ya got ~" screen
+        sleep(4.6) # "ya got ~" screen
         pos_next.click()
-        sleep(2.6) # the screen fades to black
+        sleep(2.4) # the screen fades to black
         # \/ intercourse
         st.location = home
         st.day += 1
+
+
+class Twilight(Pony):
+    click = 4
+    wait = 8
+    def _getting(self, st: State):
+        assert "spike_service" in st.status
+        st.assert_wing()
+        st.assert_moon()
+        tree_house_park.go(st)
+        high_high_center.click()
+        skip(2)
+        sleep(1)
+        skip(4)
+        sleep(3.5)
+        skip(2)
+
 
 class Vinyl(Pony):
     def _getting(self, st: State):
@@ -73,6 +90,7 @@ class TrixieAgain(Pony):
 class PinkiePie(Pony):
     wait = 2
     def _getting(self, st: State):
+        assert "balloon" in st.status
         st.assert_sun()
         cake_house.go(st)
         forward.do()
@@ -83,6 +101,7 @@ class Applejack(Pony):
     wait = 16
     waitload = 19
     def _getting(self, st: State):
+        assert "broken_boulder" in st.status
         st.assert_sun()
         applejack.touch(st)
         skip(4)
@@ -113,7 +132,7 @@ class Derpy(Pony):
     wait = 13.2
     click = 0
     def _getting(self, st: State):
-        Location([forward, rotate_left]).go(st)
+        derpy_letter_box.go(st)
         center.click()
         skip(2)
         center.click()
@@ -124,3 +143,22 @@ class Derpy(Pony):
         agree()
         skip()
         sleep(29) # saving derpy & intro
+
+
+class Zecora(Pony):
+    def _getting(self, st: State):
+        water_stream.touch(st)
+        skip(3)
+        everfree_forest.go(st)
+        forward.do()
+        skip()
+        agree()
+        sleep(3.7)
+        for direction in [left, left, right] * 3:
+            direction.do()
+        forward.do()
+        fast(5)
+        pos_zecora_closet.click()
+        sleep(2.5)
+        skip(7)
+        sleep(1)

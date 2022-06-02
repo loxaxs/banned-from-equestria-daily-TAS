@@ -4,7 +4,10 @@ import sys
 def format_arg(a, kw):
     str_list = []
     for v in a:
-        str_list.append(str(v))
+        end = ""
+        if len(str(v)) > 10:
+            end = "..."
+        str_list.append(str(v)[:10]+end)
     if kw:
         str_list.append(f"**{kw}")
     return ", ".join(str_list)

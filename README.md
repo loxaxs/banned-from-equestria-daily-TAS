@@ -12,7 +12,7 @@ Optimized times for:
 - Trixie
     - Changing between Earth pony, Pegasus and Unicorn
     - Her talking longer the first time we chat with her
-    - Her talking longer when she sees want her transformation book
+    - Her talking longer when she sees we want her transformation book
 - Getting
     - Vinyl (aka. DjP0n3) (/)
     - Trixie (only with shield breaker A)
@@ -43,7 +43,6 @@ Does not support:
     - Big Macintosh
     - More ponies (who???)
 - Buying at the spa
-- "More Bullshit" stories -- what are they, actually?
 
 ## Requirements
 
