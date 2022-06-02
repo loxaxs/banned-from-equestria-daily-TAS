@@ -1,4 +1,16 @@
+import pyautogui as pg
+
 from model import Pos, Move, Location, SunLocation, MoonLocation, Thing, WingLocation
+from util import logcall
+
+@logcall
+def place_window(window_title):
+    """Find the window, raise it, size it and move it"""
+    browser_window: pg.Window
+    [browser_window] = pg.getWindowsWithTitle(window_title)
+    browser_window.moveTo(-8, -8)
+    browser_window.resizeTo(newWidth=875, newHeight=710)
+    browser_window.activate()
 
 # Base position
 center = Pos(410, 380)
@@ -34,29 +46,29 @@ rotate_right = Move(low_right, low_left)
 inventory = Move(pos_inventory, pos_inventory)
 
 # Location
-home = Location([])
-field = Location([rotate_right])
-tree_house = SunLocation([forward] * 4)
-cake_house = SunLocation([forward, left])
-boulder = Location([rotate_left, forward, forward])
-vinyl_door = Location([forward, right])
-apple_tree = SunLocation([rotate_left] + [forward] * 6)
-station_desk = Location([forward, forward, right, left])
-fluttershy_hut = MoonLocation([rotate_right] * 2 + [forward] * 3)
-luna_viewpoint = WingLocation([rotate_right, up_castel, right])
+home = Location("home", [])
+field = Location("field", [rotate_right])
+tree_house = SunLocation("tree_house", [forward] * 4)
+cake_house = SunLocation("cake_house", [forward, left])
+boulder = Location("boulder", [rotate_left, forward, forward])
+vinyl_door = Location("vinyl_door", [forward, right])
+apple_tree = SunLocation("apple_tree", [rotate_left] + [forward] * 6)
+station_desk = Location("station_desk", [forward, forward, right, left])
+fluttershy_hut = MoonLocation("fluttershy_hut", [rotate_right] * 2 + [forward] * 3)
+luna_viewpoint = WingLocation("luna_viewpoint", [rotate_right, up_castel, right])
 
 # Object positions
-scarecrow = Thing(field, Pos(491, 333))
-obj_balloon = Thing(field, Pos(250, 520))
-bottle = Thing(station_desk, Pos(79, 509))
-vinyl_disk = Thing(vinyl_door, Pos(518, 326))
-transformation_book = Thing(home, Pos(45, 457))
-twilight_book = Thing(tree_house, Pos(768, 334))
-fluttershy_lamp = Thing(fluttershy_hut, Pos(293, 89))
-fluttershy_window = Thing(fluttershy_hut, Pos(628, 340))
+scarecrow = Thing("scarecrow", field, Pos(491, 333))
+obj_balloon = Thing("obj_balloon", field, Pos(250, 520))
+bottle = Thing("bottle", station_desk, Pos(79, 509))
+vinyl_disk = Thing("vinyl_disk", vinyl_door, Pos(518, 326))
+transformation_book = Thing("transformation_book", home, Pos(45, 457))
+twilight_book = Thing("twilight_book", tree_house, Pos(768, 334))
+fluttershy_lamp = Thing("fluttershy_lamp", fluttershy_hut, Pos(293, 89))
+fluttershy_window = Thing("fluttershy_window", fluttershy_hut, Pos(628, 340))
 
 # Ponies positions
-trixie = Thing(home, Pos(640, 510))
-mrs_cake = Thing(cake_house, Pos(240, 310))
-applejack = Thing(apple_tree, Pos(221, 499))
-station_desk_pony = Thing(station_desk, Pos(552, 341))
+trixie = Thing("trixie", home, Pos(640, 510))
+mrs_cake = Thing("mrs_cake", cake_house, Pos(240, 310))
+applejack = Thing("applejack", apple_tree, Pos(221, 499))
+station_desk_pony = Thing("station_desk_pony", station_desk, Pos(552, 341))

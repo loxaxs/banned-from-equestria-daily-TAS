@@ -3,8 +3,10 @@ import sys
 
 def format_arg(a, kw):
     str_list = []
-    for v in a: str_list.append(str(v))
-    if kw: str_list.append(f"**{kw}")
+    for v in a:
+        str_list.append(str(v))
+    if kw:
+        str_list.append(f"**{kw}")
     return ", ".join(str_list)
 
 
@@ -20,9 +22,9 @@ def logcall(fun):
 def logboth(fun):
     """Log beginning and end of calls to the decorated function"""
     def wrap(*a, **kw):
-        print(f"{fun.__name__}({format_arg(a, kw)}) begin")
+        print(f"/\\{fun.__name__}({format_arg(a, kw)})")
         result = fun(*a, **kw)
-        print(f"{fun.__name__} end")
+        print(f"\\/{fun.__name__} -> {result}")
         return result
     return wrap
 

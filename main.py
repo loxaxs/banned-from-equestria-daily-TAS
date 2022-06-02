@@ -1,7 +1,6 @@
 import time
 
 import pyautogui as pg
-
 from model import Pair
 from sequence import *
 from util import logcall
@@ -11,23 +10,9 @@ pg.FAILSAFE = True
 # Banned from Equestria (Daily) v1.5
 # WINDOW_TITLE = 'Banned from Equestria (Daily)'
 WINDOW_TITLE = 'BFEQ'
-WINDOW_POS_OFFSET = Pair(0, 0)
-EXTRA_POS_OFFSET = Pair(-8, -8)
 
 
 # Misc
-@logcall
-def place_window():
-    """Find the window, raise it, size it and move it"""
-    browser_window: pg.Window
-    [browser_window] = pg.getWindowsWithTitle(WINDOW_TITLE)
-    x, y = WINDOW_POS_OFFSET
-    cx, cy = EXTRA_POS_OFFSET
-    browser_window.moveTo(x + cx, y + cy)
-    browser_window.resizeTo(newWidth=875, newHeight=710)
-    browser_window.activate()
-
-
 @logcall
 def reload():
     """Reload the page and click through the introduction"""
@@ -39,12 +24,12 @@ def reload():
 # Scenario
 def meet_luna(st: State):
     """Meet luna"""
-    become(st, Pony.HORN)
+    become(st, PonyKind.HORN)
     bring_balloon(st)
     learn_spell(st)
     get_vinyl(st)
     get_trixie1(st)
-    become(st, Pony.WING)
+    become(st, PonyKind.WING)
     get_pinkie_pie(st)
     get_fluttershy(st)
     get_derpy(st)
@@ -58,24 +43,25 @@ def apple_road(st: State):
     quest_muffin(st)
     bottle.touch(st); skip()
     quest_ticket(st)
-    become(st, Pony.HORN)
+    become(st, PonyKind.HORN)
 
 
 def twibook(st: State):
     """Get twilight's book and give it back"""
     bring_balloon(st)
     learn_spell(st)
-    become(st, Pony.HORN)
+    become(st, PonyKind.HORN)
     dance_with_scarecrow(st)
     get_transformation_book(st)
     get_trixie1(st)
-    become(st, Pony.WING)
+    become(st, PonyKind.WING)
     tree_house.go(st)
 
 
 def trixie2(st: State):
     """Get Trixie Twice"""
     learn_spell(st)
+    become(st, PonyKind.HORN)
     dance_with_scarecrow(st)
     get_trixie1(st)
     get_money(st, 1)
@@ -84,26 +70,25 @@ def trixie2(st: State):
     get_trixie2(st)
 
 
+###
+sleep(0.5)
+st = State(home, PonyKind.EARTH, 0, dict(), set())
+beginning = time.time()
 try:
-    sleep(0.5)
-    st = State(home, Pony.EARTH, 0, dict())
-    beginning = time.time()
     print(f"{beginning=}")
-    place_window()
+    place_window(window_title=WINDOW_TITLE)
     reload()
 
     trixie2(st)
-
-    end = time.time()
-    print(f"{end - beginning=}")
 except Exception:
     end = time.time()
     print(f"{end - beginning=}")
+    raise
     # import traceback, pdb
     # traceback.print_exc()
     # pdb.post_mortem()
 else:
     end = time.time()
     print(f"{end - beginning=}")
-finally:
-    breakpoint()
+# finally:
+#     breakpoint()

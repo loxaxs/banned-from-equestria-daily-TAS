@@ -17,7 +17,7 @@ class RunnableInterface:
 
 
 # # Classes
-class Pony(Enum):
+class PonyKind(Enum):
     EARTH = "EARTH"
     WING = "WING"
     HORN = "HORN"
@@ -42,9 +42,10 @@ class State:
           to compute / predict sleeps and skips correctly.
     """
     location: "Location"
-    pony: Pony
+    kind: PonyKind
     day: int
-    encounter: dict
+    status: dict
+    gotten: set
 
     def sun(self):
         return self.day % 2 == 0
@@ -59,10 +60,15 @@ class State:
         assert self.moon()
 
     def assert_horn(self):
-        assert self.pony == Pony.HORN
+        assert self.kind == PonyKind.HORN
 
     def assert_wing(self):
-        assert self.pony == Pony.WING
+        assert self.kind == PonyKind.WING
+
+    def getting(self, pony_name):
+        assert pony_name not in self.gotten
+        print(f"getting {pony_name}")
+        self.gotten.add(pony_name)
 
 
 class Pos(Pair, RunnableInterface):
@@ -102,12 +108,12 @@ class Move:
 
 @dataclass
 class Location:
+    name: str
     path: List[Move]
 
     def go(self, st: State):
         undo_list, do_list = remove_common_prefix(st.location.path, self.path)
-        print(f"go: {len(undo_list)} + {len(do_list)} moves to do")
-        # if len(undo_list) == 3 and len(do_list) == 6: breakpoint()
+        print(f"go to {self.name} (-{len(undo_list)} +{len(do_list)})")
         for move in reversed(undo_list):
             move.undo()
         for move in do_list:
@@ -115,7 +121,7 @@ class Location:
         st.location = self
 
     def __repr__(self):
-        return f"<Lo{id(self)}>"
+        return f"<Loc:{self.name}>"
 
 
 class SunLocation(Location):
@@ -132,12 +138,13 @@ class MoonLocation(Location):
 
 class WingLocation(Location):
     def go(self, st: State):
-        assert st.pony == Pony.WING
+        assert st.kind == PonyKind.WING
         super().go(st)
 
 
 @dataclass
 class Thing:
+    name: str
     location: Location
     position: Pos
 
@@ -145,3 +152,6 @@ class Thing:
         self.location.go(st)
         self.position.click()
         pg.sleep(wait)
+
+    def __repr__(self):
+        return f"<Thing:{self.name}>"

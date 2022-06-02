@@ -2,29 +2,30 @@ from encounter import encounter_trixie
 from fast import smash
 from pony_up import *
 from util import logboth
+from model import PonyKind
 
 
 # Macro
 @logboth
-def become(st: State, pony: Pony):
+def become(st: State, kind: PonyKind):
     """
     Become an earth pony, a pegasus or a unicorn
     Requirements:
     - time: day
     """
-    if st.pony == pony:
+    if st.kind == kind:
         return
     st.assert_sun()
     trixie.touch(st)
     encounter_trixie(st, 'trixie')
     skip(2)
     sleep(.4)
-    if pony == Pony.HORN or (pony == Pony.EARTH and st.pony == Pony.HORN):
+    if kind == PonyKind.HORN or (kind == PonyKind.EARTH and st.kind == PonyKind.HORN):
         accept()
-    elif pony == Pony.WING or (pony == Pony.EARTH and st.pony == Pony.WING):
+    elif kind == PonyKind.WING or (kind == PonyKind.EARTH and st.kind == PonyKind.WING):
         agree()
     sleep(1.6)
-    st.pony = pony
+    st.kind = kind
 
 
 # Sequence
@@ -80,6 +81,7 @@ def quest_muffin(st: State):
     - money: 6+ bucks
     - have no muffin in inventory
     """
+    st.assert_sun()
     # fails for unknown reason - but at least it buys the muffin
     buy_muffin(st, 4)
     with inventory:
@@ -98,11 +100,12 @@ def quest_ticket(st: State):
     - Twilight has already been encountered and Spike seen escaping
     - The ticket has not yet been bought
     """
+    st.assert_sun()
     station_desk_pony.touch(st)
     skip(2)
     sleep(0.6)
     agree(); skip()
-    become(st, Pony.WING)
+    become(st, PonyKind.WING)
     Location([forward] * 3).go(st)
     high_high_center.click()
     skip(7)
@@ -119,9 +122,9 @@ def quest_ticket(st: State):
 def learn_spell(st: State):
     """Go meet Twilight and learn the two spells
     Requirements:
-    - day
     - Twilight has not been met yet
     """
+    st.assert_sun()
     tree_house.go(st)
     center.click()
     fast(1.8)
@@ -142,7 +145,8 @@ def get_money(st: State, target_count):
     - day
     - boulder has not been broken yet
     """
-    become(st, Pony.HORN)
+    st.assert_sun()
+    become(st, PonyKind.HORN)
     boulder.go(st)
     center.click() # break boulder
     sleep(3); skip(12) # wait during scene then skip dialog
@@ -186,7 +190,7 @@ def get_transformation_book(st: State):
     - Time is night
     - The book has not yet been taken
     """
-    assert(st.pony == Pony.HORN) # assert we have a horn
+    assert(st.kind == PonyKind.HORN) # assert we have a horn
     st.assert_moon() # assert we are at night
     trixie.touch(st)
     break_shield_trixie(st)

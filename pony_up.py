@@ -1,7 +1,7 @@
 from encounter import break_shield_trixie, break_second_shield_trixie
 from fast import sleep, skip, accept, agree, fast
 from info import *
-from model import State, Pos, Pony
+from model import State, Pos
 from util import logboth
 
 # See README.md for description of the role of this file
@@ -12,17 +12,23 @@ def intercourse(st: State, square: Pos, wait=0.8, waitload=6.6, click=0):
     Manage clicking at the right time and places during the intercourse scene(s).
     Also update the state as needed.
     """
-    square.click(); sleep(waitload)
-    pos_exclamation.click(); sleep(wait)
-    skip(click); sleep(.4)
-    pos_end.click(); sleep(4.8)
-    pos_next.click(); sleep(2.6)
+    square.click() # square is usually pos_three or pos_four
+    sleep(waitload) # wait for the bar to load, (it is slow for applejack)
+    pos_exclamation.click() # final
+    sleep(wait)
+    skip(click) # skip dialogs
+    sleep(.4)
+    pos_end.click() # end square
+    sleep(4.8) # "ya got ~" screen
+    pos_next.click()
+    sleep(2.6) # the screen fades to black
     st.location = home
     st.day += 1
 
 
 @logboth
 def get_vinyl(st: State):
+    st.getting("Vinyl")
     vinyl_disk.touch(st); sleep(2.9)
     skip(2)
     forward.do()
@@ -32,7 +38,8 @@ def get_vinyl(st: State):
 
 @logboth
 def get_trixie1(st: State):
-    assert(st.pony == Pony.HORN)
+    st.getting("Trixie")
+    st.assert_horn()
     st.assert_moon()
     trixie.touch(st) # Zoom
     break_shield_trixie(st)
@@ -45,7 +52,8 @@ def get_trixie1(st: State):
 
 @logboth
 def get_trixie2(st: State):
-    assert(st.pony == Pony.HORN)
+    st.getting("Trixie again")
+    st.assert_horn()
     st.assert_moon()
     trixie.touch(st) # Zoom
     break_second_shield_trixie(st)
@@ -57,6 +65,8 @@ def get_trixie2(st: State):
 
 @logboth
 def get_pinkie_pie(st: State):
+    st.getting("Pinkie Pie")
+    st.assert_sun()
     cake_house.go(st)
     forward.do()
     sleep(10)
@@ -65,6 +75,8 @@ def get_pinkie_pie(st: State):
 
 @logboth
 def get_applejack(st: State):
+    st.getting("Applejack")
+    st.assert_sun()
     applejack.touch(st)
     skip(4)
     sleep(.5)
@@ -75,6 +87,8 @@ def get_applejack(st: State):
 
 @logboth
 def get_fluttershy(st: State):
+    st.getting("Fluttershy")
+    st.assert_moon()
     fluttershy_window.touch(st)
     skip(7); sleep(3.4)
     skip()
@@ -93,6 +107,7 @@ def get_fluttershy(st: State):
 
 @logboth
 def get_derpy(st: State):
+    st.getting("Derpy")
     Location([forward, rotate_left]).go(st)
     center.click()
     skip(2)
