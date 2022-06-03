@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from fast import sleep, skip, fast, smash, agree, accept
 from info import *
 from model import State, PonyKind
@@ -28,38 +30,75 @@ def become(st: State, kind: PonyKind):
 
 
 # Sequence
-@logboth
-def dance_with_scarecrow(st: State):
+class Sequence:
+    def check(self, st: State):
+        pass
+    def interact(self, st: State):
+        raise NotImplementedError()
+    def change(self, st: State):
+        pass
+
+    def run(self, st: State):
+        self.check(st)
+        self.interact(st)
+        self.change(st)
+
+    def simulate(self, st: State):
+        self.check(st)
+        self.change(st)
+
+
+@dataclass
+class Goto(Sequence):
+    location: Location
+    def interact(self, st: State):
+        self.location.go(st)
+
+
+@dataclass
+class Become(Sequence):
+    kind: PonyKind
+    def check(self, st: State):
+        st.assert_sun()
+    def interact(self, st: State):
+        become(st, self.kind)
+
+
+class DanceWithScareCrow(Sequence):
     """
     Dance with the scarecrow, either at day or at night
     Requirements: NONE
     """
-    scarecrow.touch(st)
-    skip(3)
-    agree()
-    sleep(8.4)
-    st.day += 1
+    def interact(self, st: State):
+        scarecrow.touch(st)
+        skip(3)
+        agree()
+        sleep(8.4)
+    def change(self, st):
+        st.day += 1
 
 
-@logboth
-def bring_balloon(st: State):
+class BringBalloon(Sequence):
     """
     Fetch and bring balloon to Mrs.Cake, then put the gift in Pinkie's room
     Requirements:
     - time: day
     - balloon has not yet been touched
     """
-    obj_balloon.touch(st, wait=0.2)
-    skip()
-    mrs_cake.touch(st, wait=0.2)
-    skip(5)
-    with forward:
-        center.click()
+    def check(self, st: State):
+        st.assert_sun()
+    def interact(self, st: State):
+        obj_balloon.touch(st, wait=0.2)
+        skip()
+        mrs_cake.touch(st, wait=0.2)
+        skip(5)
+        with forward:
+            center.click()
+    def change(self, st):
         st.status["balloon"] = True
 
 
-@logboth
-def buy_muffin(st: State):
+class BuyMuffin(Sequence):
     """
     Go buy a muffing
     Requirements:
@@ -67,37 +106,41 @@ def buy_muffin(st: State):
     - money: 3+ bucks
     - have no muffin in inventory
     """
-    mrs_cake.touch(st)
-    assert "muffin" not in st.status
-    skip()
-    agree()
-    st.money -= 3
-    assert st.money >= 0
-    st.status["muffin"] = 1
-    skip()
+    def check(self, st: State):
+        assert st.status.get("muffin", 0) == 0
+        assert st.money >= 3
+    def interact(self, st: State):
+        mrs_cake.touch(st)
+        skip()
+        agree()
+        st.money -= 3
+        skip()
+    def change(self, st: State):
+        st.status["muffin"] = 1
 
 
-@logboth
-def eat_muffin(st: State):
+class EatMuffin(Sequence):
     """
     Go to Mrs Cake and buy a muffin.
     - The inventory must be clear of balloon
     - Time must be day
     - The player has enough money to buy the muffin
     """
-    assert st.status.get("muffin", 0) > 0
-    with inventory:
-        sleep(.2)
-        pos_muffin.click()
-        sleep(.2)
-        pos_inventory_yes.click()
+    def check(self, st: State):
+        assert st.status.get("muffin", 0) > 0
+    def interact(self, st: State):
+        with inventory:
+            sleep(.2)
+            pos_muffin.click()
+            sleep(.2)
+            pos_inventory_yes.click()
+            skip()
+    def change(self, st: State):
         st.status["muffin"] = 0
-        skip()
-    st.status["shield_breaker_B"] = True
+        st.status["shield_breaker_B"] = True
 
 
-@logboth
-def help_spike(st: State):
+class HelpSpike(Sequence):
     """
     Buy one ticket and bring it to Spike
     Requirements:
@@ -106,108 +149,124 @@ def help_spike(st: State):
     - Twilight has already been encountered and Spike seen escaping
     - The ticket has not yet been bought
     """
-    assert "magic_attack_A" in st.status
-    st.assert_sun()
-    station_desk_pony.touch(st)
-    skip(2)
-    sleep(0.6)
-    st.money -= 50
-    assert st.money >= 0
-    agree(); skip()
-    become(st, PonyKind.WING)
-    tree_house_park.go(st)
-    high_high_center.click()
-    fast(1.7)
-    agree()
-    sleep(3.7)
-    skip(5)
-    st.status["spike_service"] = True
-    back.click()
+    def check(self, st: State):
+        assert st.money >= 50
+        assert "magic_attack_A" in st.status # i.e. we met Twilight
+        st.assert_sun()
+    def interact(self, st: State):
+        station_desk_pony.touch(st)
+        skip(2)
+        sleep(0.6)
+        st.money -= 50
+        agree(); skip()
+        become(st, PonyKind.WING)
+        tree_house_park.go(st)
+        high_high_center.click()
+        fast(1.7)
+        agree()
+        sleep(3.7)
+        skip(5)
+        back.click()
+    def change(self, st: State):
+        st.status["spike_service"] = True
+        st.kind = PonyKind.WING
 
 
-@logboth
-def learn_spell(st: State):
+
+class LearnSpell(Sequence):
     """Go meet Twilight and learn the two spells
     Requirements:
     - Twilight has not been met yet
     """
-    st.assert_sun()
-    tree_house.go(st)
-    center.click()
-    fast(1.8)
-    agree()
-    skip(12)
-    encounter_twilight(st)
-    for k in range(2):
-        twilight_book.touch(st, 0)
-        skip(2)
-    st.status["magic_attack_A"] = True
-    st.status["shield_breaker_A"] = True
+    def check(self, st: State):
+        st.assert_sun()
+    def interact(self, st: State):
+        tree_house.go(st)
+        center.click()
+        fast(1.8)
+        agree()
+        skip(12)
+        for k in range(2):
+            twilight_book.touch(st, 0)
+            skip(2)
+    def change(self, st: State):
+        encounter_twilight(st)
+        st.status["magic_attack_A"] = True
+        st.status["shield_breaker_A"] = True
 
 
-@logboth
-def break_boulder(st: State):
+class BreakBoulder(Sequence):
     """
     Go break the boulder.
     Requirements:
     - know magic attack A
     - boulder has not been broken yet
     """
-    assert "magic_attack_A" in st.status
-    assert "broken_boulder" not in st.status
-    become(st, PonyKind.HORN)
-    boulder.go(st)
-    center.click() # break boulder
-    sleep(3); skip(12) # wait during scene then skip dialog
+    def check(self, st: State):
+        assert "magic_attack_A" in st.status
+        assert "broken_boulder" not in st.status
+    def interact(self, st: State):
+        become(st, PonyKind.HORN)
+        boulder.go(st)
+        center.click() # break boulder
+        sleep(3); skip(12) # wait during scene then skip dialog
+    def change(self, st: State):
+        st.status["broken_boulder"] = True
+        st.kind = PonyKind.HORN
 
 
 
-@logboth
-def get_money(st: State, target_count):
+@dataclass
+class GetMoney(Sequence):
+    target_count: int
     """
     Go buck the tree.
     Requirements:
     - day
     - boulder has been broken
     """
-    st.assert_sun()
-    assert "broken_boulder" not in st.status
-    applejack.touch(st) # talk to AJ
-    sleep(0.5); skip(6) # talk...
-    print("bucking!")
-    smash(43, 3.3) # Send 43 clicks to buck the tree
-    center.click(); skip(2) # Talk to AJ
-    st.money += 40
-    if target_count <= 1:
-        accept(); skip(2)
-        return
-    agree() # Continue bucking
-    print("bucking again!")
-    smash(44, 3.3); skip(3) # Smash the click button to buck the tree
-    st.money += 40
-    if target_count <= 2:
-        accept(); skip(2)
-        return
-    agree() # Continue bucking
-    print("bucking a third time!")
-    smash(45, 3.3); skip(4) # Smash the click button to buck the tree
-    accept(); skip(2) # Wanna go to the barn? -> No
-    st.money += 40
-    if target_count <= 3:
-        accept(); skip(2)
-        return
-    count = 3
-    while count < target_count:
-        agree()
-        print(f"bucking a {count}th time")
-        smash(45, 3.8); skip(4)
+    def check(self, st: State):
+        assert "broken_boulder" in st.status
+        st.assert_sun()
+    def interact(self, st: State):
+        applejack.touch(st) # talk to AJ
+        sleep(0.5); skip(6) # talk...
+        print("bucking!")
+        smash(43, 3.3) # Send 43 clicks to buck the tree
+        center.click(); skip(2) # Talk to AJ
         st.money += 40
-        count += 1
-    accept(); skip(2)
+        if self.target_count <= 1:
+            accept(); skip(2)
+            return
+        agree() # Continue bucking
+        print("bucking again!")
+        smash(44, 3.3); skip(3) # Smash the click button to buck the tree
+        st.money += 40
+        if self.target_count <= 2:
+            accept(); skip(2)
+            return
+        agree() # Continue bucking
+        print("bucking a third time!")
+        smash(45, 3.3); skip(4) # Smash the click button to buck the tree
+        accept(); skip(2) # Wanna go to the barn? -> No
+        st.money += 40
+        if self.target_count <= 3:
+            accept(); skip(2)
+            return
+        count = 3
+        while count < self.target_count:
+            agree()
+            print(f"bucking a {count}th time")
+            smash(45, 3.8); skip(4)
+            st.money += 40
+            count += 1
+        accept(); skip(2)
+    def change(self, st: State):
+        st.status["broken_boulder"] = True
+        st.money += 40 * self.target_count
 
 
-@logboth
-def get_transformation_book(st: State):
+class GetTransformationBook(Sequence):
     """
     Go to trixie and get the spell book
     Requirements:
@@ -215,15 +274,20 @@ def get_transformation_book(st: State):
     - Time is night
     - The book has not yet been taken
     """
-    assert(st.kind == PonyKind.HORN) # assert we have a horn
-    st.assert_moon() # assert we are at night
-    trixie.touch(st)
-    break_shield_trixie(st)
-    transformation_book.touch(st)
-    skip()
-    back.click()
+    def check(self, st: State):
+        assert(st.kind == PonyKind.HORN) # assert we have a horn
+        st.assert_moon() # assert we are at night
+    def interact(self, st: State):
+        trixie.touch(st)
+        break_shield_trixie(st)
+        transformation_book.touch(st)
+        skip()
+        back.click()
+    def change(self, st: State):
+        st.status["transformation_book"] = True
 
 
+# /\ Helper sequences
 @logboth
 def encounter_twilight(st: State):
     if 'trixie2' not in st.status:
@@ -280,3 +344,4 @@ def go_to_zecora_hut(st: State):
     for direction in [left, left, right] * 3:
         direction.do()
     forward.do()
+# \/ helper sequences

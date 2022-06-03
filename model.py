@@ -10,12 +10,6 @@ from util import remove_common_prefix
 Pair = namedtuple("Pair", ("x", "y"))
 
 
-# # Interfaces
-class RunnableInterface:
-    def run(self):
-        raise NotImplementedError()
-
-
 # # Classes
 class PonyKind(Enum):
     EARTH = "EARTH"
@@ -64,7 +58,7 @@ class State:
         assert self.kind == PonyKind.WING
 
 
-class Pos(Pair, RunnableInterface):
+class Pos(Pair):
     """
     A pos is a pair of coordinates that can be clicked (and hovered).
     """
@@ -74,23 +68,20 @@ class Pos(Pair, RunnableInterface):
     def click(self):
         pg.click(*self)
 
-    def run(self):
-        self.click()
-
 
 @dataclass
 class Move:
     """
     A move is an action that can be undone.
     """
-    forward: RunnableInterface
-    backward: RunnableInterface
+    forward: Pos
+    backward: Pos
 
     def do(self):
-        self.forward.run()
+        self.forward.click()
 
     def undo(self):
-        self.backward.run()
+        self.backward.click()
 
     def __enter__(self):
         self.do()

@@ -50,7 +50,7 @@ This project was written using Python 3.8 and PyAutoGUI (`pip3 install pyautogui
 
 ## Trying it out
 
-Open Banned from Equestria as the single tab of a window, then run `python main.py`
+In a browser window, open two Banned from Equestria tabs and have no other tabs open in that window, then run `python main.py`
 
 ## Important note
 
