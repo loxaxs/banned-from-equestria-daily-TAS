@@ -87,11 +87,18 @@ try:
 
     learn_spell(st)
     break_boulder(st)
-    become(st, PonyKind.WING)
     get_money(st, 2)
+    bring_balloon(st)
+    buy_muffin(st)
+    eat_muffin(st)
     help_spike(st)
-    dance_with_scarecrow(st)
+    Zecora().get(st)
     Twilight().get(st)
+    PinkiePie().get(st)
+    Fluttershy().get(st)
+    Vinyl().get(st)
+    luna_viewpoint.go()
+
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:

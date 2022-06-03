@@ -1,4 +1,4 @@
-from sequence import break_shield_trixie, break_second_shield_trixie
+from sequence import break_shield_trixie, break_second_shield_trixie, go_to_zecora_hut
 from fast import sleep, skip, accept, agree, fast
 from info import *
 from model import State, Pos
@@ -37,6 +37,7 @@ class Pony:
 class Twilight(Pony):
     click = 4
     wait = 8
+    waitload = 9
     def _getting(self, st: State):
         assert "spike_service" in st.status
         st.assert_wing()
@@ -46,8 +47,9 @@ class Twilight(Pony):
         skip(2)
         sleep(1)
         skip(4)
-        sleep(3.5)
+        sleep(4)
         skip(2)
+        sleep(1)
 
 
 class Vinyl(Pony):
@@ -111,6 +113,8 @@ class Applejack(Pony):
 
 
 class Fluttershy(Pony):
+    wait = 3
+    click = 4
     def _getting(self, st: State):
         st.assert_moon()
         fluttershy_window.touch(st)
@@ -149,16 +153,16 @@ class Zecora(Pony):
     def _getting(self, st: State):
         water_stream.touch(st)
         skip(3)
-        everfree_forest.go(st)
-        forward.do()
-        skip()
-        agree()
-        sleep(3.7)
-        for direction in [left, left, right] * 3:
-            direction.do()
-        forward.do()
+        go_to_zecora_hut(st)
         fast(5)
         pos_zecora_closet.click()
         sleep(2.5)
         skip(7)
         sleep(1)
+
+class Chrysalis(Pony):
+    wait = 4
+    click = 7
+    def _getting(self, st: State):
+        go_to_zecora_hut(st)
+        fast(6)

@@ -269,3 +269,14 @@ def break_second_shield_trixie(st: State):
         sleep(.8)
         skip(1)
         st.status['second_trixie_shield'] = True
+
+@logboth
+def go_to_zecora_hut(st: State):
+    everfree_forest.go(st)
+    forward.do()
+    skip()
+    agree()
+    sleep(3.7)
+    for direction in [left, left, right] * 3:
+        direction.do()
+    forward.do()

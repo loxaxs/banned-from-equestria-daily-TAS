@@ -7,27 +7,27 @@ A bunch of functions and classes to play through Banned from Equestria (Daily) w
 - time starts at page reload
 - runs with Chrome / Canary Chrome / Chromium
 
-Optimized times for:
+Supports getting ponies:
+
+- Twilight
+- Vinyl
+- Trixie, twice
+- Pinkie Pie
+- Applejack
+- Fluttershy
+- Derpy
+- Zecora
+- Chrysalis, bad end
+
+Also supports sequences for:
 
 - Trixie
-    - Changing between Earth pony, Pegasus and Unicorn
-    - Her talking longer the first time we chat with her
-    - Her talking longer when she sees we want her transformation book
-- Getting
-    - Vinyl (aka. DjP0n3) (/)
-    - Trixie (only with shield breaker A)
-    - Pinkie Pie (& handles gifting the ball)
-    - Fluttershy (& handles the questions)
-    - Derpy (/)
+  - Changing between Earth pony, Pegasus and Unicorn
+  - Her talking longer the first time we chat with her
+  - Her talking longer when she sees we want her transformation book
 - Switching between day and night by dancing with Mr. Scarecrow
-
-Also supports:
-
-- Partially getting
-    - Applejack (does only the boulderbreaking and the applebucking)
-    - Twilight (buys the ticket and brings it to Spike)
-- Getting money (by default, 80 bucks)
-- Buying a cupcake (but not eating it, some debug work to do there)
+- Getting money
+- Buying a cupcake, eating a cupcake
 - Keeping track of the location, and moving efficiently
 - Going to luna's viewpoint
 
@@ -47,6 +47,10 @@ Does not support:
 ## Requirements
 
 This project was written using Python 3.8 and PyAutoGUI (`pip3 install pyautogui`).
+
+## Trying it out
+
+Open Banned from Equestria as the single tab of a window, then run `python main.py`
 
 ## Important note
 
