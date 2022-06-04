@@ -90,14 +90,14 @@ Sequence (sequence.py and pony_up.py) [
   ]
 | (which are made of)
 - Move (Location.go: `cake_house.go()`)
-- Object touch (Thing.touch: `bottle.touch()`)
+- Object touch (Thing.touch: `wine_bottle.touch()`)
 - Pony touch (Thing.touch: `trixie.touch()`)
 - Clicking through dialogs (`skip` and `fast`, in fast.py)
 - Waiting during cutscenes (`sleep` and `fast`, in fast.py)
 | (these things rely on)
 - State [st = State()]
 - Thing [
-    bottle = Thing(station_desk, Pos(79, 509)),
+    wine_bottle = Thing(station_desk, Pos(79, 509)),
     twilight_book = Thing(tree_house, Pos(768, 334)),
     trixie = Thing(home, Pos(640, 510)),
   ]

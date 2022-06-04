@@ -37,6 +37,21 @@ meet_luna = [
     Goto(luna_viewpoint),
 ]
 
+meet_luna_alt = [
+    LearnSpell(),
+    BreakBoulder(),
+    GetMoney(2),
+    BringBalloon(),
+    BuyMuffin(),
+    EatMuffin(),
+    HelpSpike(),
+    Zecora(),
+    Twilight(),
+    PinkiePie(),
+    Fluttershy(),
+    Vinyl(),
+    Goto(luna_viewpoint),
+]
 
 # Get money and use it
 apple_road = [
@@ -75,6 +90,26 @@ trixie_twice = [
     TrixieAgain(),
 ]
 
+more_bullshit = [
+    # time 0
+    BringBalloon(),
+    BringBottle(), ##
+    LearnSpell(),
+    Become(PonyKind.HORN),
+    Vinyl(), # time 1
+    VinylRemixingTime(), ##
+    FluttershySoManyWonders(), ##
+    GetTransformationBook(),
+    DanceWithScareCrow(), # time 2
+    BringTransformationBook(), ##
+    PinkiePie(), # time 3
+    DanceWithScareCrow(), # time 4
+    PinkiePieGoodbyeEquestria(), ##
+    BreakBoulder(),
+    CutieMarkCrusaders(), ##
+    Chrysalis(), # early end
+]
+
 
 def plan_and_run(*args):
     # planning
@@ -96,21 +131,7 @@ def plan_and_run(*args):
 
 ###
 try:
-    plan_and_run(
-        LearnSpell(),
-        BreakBoulder(),
-        GetMoney(2),
-        BringBalloon(),
-        BuyMuffin(),
-        EatMuffin(),
-        HelpSpike(),
-        Zecora(),
-        Twilight(),
-        PinkiePie(),
-        Fluttershy(),
-        Vinyl(),
-        Goto(luna_viewpoint),
-    )
+    plan_and_run(*more_bullshit)
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:

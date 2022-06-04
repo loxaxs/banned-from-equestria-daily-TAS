@@ -68,7 +68,7 @@ class Vinyl(Pony):
         skip(2)
         forward.do()
         center.click()
-        sleep(18.5)
+        sleep(18)
 
 
 class Trixie(Pony):
@@ -134,9 +134,11 @@ class Fluttershy(Pony):
     wait = 3
     click = 4
     def check(self, st):
+        assert "fluttershy_asleep" not in st.status
         self.pony_check(st)
         st.assert_moon()
-    def _getting(self, st: State):
+    @classmethod
+    def start(cls, st):
         fluttershy_window.touch(st)
         skip(7); sleep(3.4)
         skip()
@@ -146,10 +148,14 @@ class Fluttershy(Pony):
         skip(8); sleep(.6)
         accept() # Cheer up
         skip(2); sleep(.6)
+    def _getting(self, st: State):
+        Fluttershy.start(st)
         agree() # Let's fuck
         skip(4); sleep(.6)
         accept() # Want it?
         skip(4); sleep(3)
+    def change(self, st: State):
+        st.status["fluttershy_asleep"] = True
 
 
 class Derpy(Pony):
@@ -170,6 +176,7 @@ class Derpy(Pony):
 
 
 class Zecora(Pony):
+    square = pos_three
     def _getting(self, st: State):
         water_stream.touch(st)
         skip(3)

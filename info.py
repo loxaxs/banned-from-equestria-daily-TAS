@@ -61,17 +61,20 @@ fluttershy_bridge = Location("fluttershy_hut", [rotate_right] * 2 + [forward] * 
 fluttershy_hut = MoonLocation("fluttershy_hut", [rotate_right] * 2 + [forward] * 3)
 everfree_forest = Location("everfree_forest", [rotate_right] * 2 + [forward, right])
 luna_viewpoint = WingLocation("luna_viewpoint", [rotate_right, up_castel, right])
+cutie_mark_crusaders_tree = Location("cutie_mark_crusaders_tree", [rotate_left] + [forward] * 8)
 
 # Object positions
 scarecrow = Thing("scarecrow", field, Pos(491, 333))
-obj_balloon = Thing("obj_balloon", field, Pos(250, 520))
-bottle = Thing("bottle", station_desk, Pos(79, 509))
+balloon = Thing("balloon", field, Pos(250, 520))
+wine_bottle = Thing("wine_bottle", station_desk, Pos(79, 509))
 vinyl_disk = Thing("vinyl_disk", vinyl_door, Pos(518, 326))
+vinyl_window = Thing("vinyl_window", vinyl_door, Pos(260, 330))
 transformation_book = Thing("transformation_book", home, Pos(45, 457))
 twilight_book = Thing("twilight_book", tree_house, Pos(768, 334))
 water_stream = Thing("water_stream", fluttershy_bridge, Pos(150, 650))
 fluttershy_lamp = Thing("fluttershy_lamp", fluttershy_hut, Pos(293, 89))
 fluttershy_window = Thing("fluttershy_window", fluttershy_hut, Pos(628, 340))
+berry_punch_doorstep = Thing("berry_punch_doorstep", Location("", [forward] * 2), Pos(730, 340))
 
 # Ponies positions
 trixie = Thing("trixie", home, Pos(640, 510))

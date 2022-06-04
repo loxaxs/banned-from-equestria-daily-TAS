@@ -62,6 +62,13 @@ class Become(Sequence):
         st.assert_sun()
     def interact(self, st: State):
         become(st, self.kind)
+    def change(self, st: State):
+        st.kind = self.kind
+
+
+class Breakpoint(Sequence):
+    def interact(self, st: State):
+        breakpoint()
 
 
 class DanceWithScareCrow(Sequence):
@@ -88,7 +95,7 @@ class BringBalloon(Sequence):
     def check(self, st: State):
         st.assert_sun()
     def interact(self, st: State):
-        obj_balloon.touch(st, wait=0.2)
+        balloon.touch(st, wait=0.2)
         skip()
         mrs_cake.touch(st, wait=0.2)
         skip(5)
@@ -96,6 +103,15 @@ class BringBalloon(Sequence):
             center.click()
     def change(self, st):
         st.status["balloon"] = True
+
+
+class BringBottle(Sequence):
+    def interact(self, st: State):
+        wine_bottle.touch(st, wait=0.2)
+        skip()
+        berry_punch_doorstep.touch(st, wait=0.2)
+        agree()
+        skip(2)
 
 
 class BuyMuffin(Sequence):
@@ -172,6 +188,69 @@ class HelpSpike(Sequence):
         st.kind = PonyKind.WING
 
 
+class VinylRemixingTime(Sequence):
+    def check(self, st: State):
+        assert "Vinyl" in st.gotten
+    def interact(self, st: State):
+        vinyl_window.touch(st)
+        skip(2)
+
+
+class FluttershySoManyWonders(Sequence):
+    def check(self, st):
+        assert "fluttershy_asleep" not in st.status
+        st.assert_moon()
+    def interact(self, st):
+        from pony_up import Fluttershy
+        Fluttershy.start(st)
+        accept() # Forget her
+        skip(6)
+        sleep(4.5)
+        fluttershy_window.touch(st)
+        skip(4)
+        fluttershy_window.touch(st)
+        skip(3)
+        fluttershy_window.touch(st)
+        skip(5)
+    def change(self, st: State):
+        st.status["fluttershy_asleep"] = True
+
+
+class BringTransformationBook(Sequence):
+    def check(self, st: State):
+        assert st.status.get("transformation_book", 0) > 0
+        st.assert_sun()
+    def interact(self, st: State):
+        tree_house.go(st)
+        center.click()
+        skip(3)
+        sleep(9)
+        skip(6)
+        st.location = tree_house_park
+
+
+class PinkiePieGoodbyeEquestria(Sequence):
+    def check(self, st: State):
+        assert "PinkiePie" in st.gotten
+        st.assert_sun()
+    def interact(self, st):
+        cake_house.go(st)
+        with forward:
+            center.click()
+            skip(2)
+
+
+class CutieMarkCrusaders(Sequence):
+    def check(self, st: State):
+        assert "broken_boulder" in st.status
+        st.assert_sun()
+    def interact(self, st):
+        cutie_mark_crusaders_tree.go(st)
+        center.click()
+        skip(17)
+        sleep(1.2)
+        center.click()
+        skip(2)
 
 class LearnSpell(Sequence):
     """Go meet Twilight and learn the two spells
@@ -275,8 +354,8 @@ class GetTransformationBook(Sequence):
     - The book has not yet been taken
     """
     def check(self, st: State):
-        assert(st.kind == PonyKind.HORN) # assert we have a horn
-        st.assert_moon() # assert we are at night
+        st.assert_horn()
+        st.assert_moon()
     def interact(self, st: State):
         trixie.touch(st)
         break_shield_trixie(st)
@@ -284,7 +363,7 @@ class GetTransformationBook(Sequence):
         skip()
         back.click()
     def change(self, st: State):
-        st.status["transformation_book"] = True
+        st.status["transformation_book"] = 1
 
 
 # /\ Helper sequences
