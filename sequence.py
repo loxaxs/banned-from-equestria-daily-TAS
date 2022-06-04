@@ -71,7 +71,17 @@ class Breakpoint(Sequence):
         breakpoint()
 
 
-class DanceWithScareCrow(Sequence):
+class Set(Sequence):
+    def __init__(self, **kwargs):
+        self.kwargs = kwargs
+    def interact(self, st):
+        pass
+    def change(self, st):
+        for key, value in self.kwargs.items():
+            setattr(st, key, value)
+
+
+class DanceWithScarecrow(Sequence):
     """
     Dance with the scarecrow, either at day or at night
     Requirements: NONE
@@ -105,7 +115,7 @@ class BringBalloon(Sequence):
         st.status["balloon"] = True
 
 
-class BringBottle(Sequence):
+class BringWineBottle(Sequence):
     def interact(self, st: State):
         wine_bottle.touch(st, wait=0.2)
         skip()
@@ -252,6 +262,7 @@ class CutieMarkCrusaders(Sequence):
         center.click()
         skip(2)
 
+
 class LearnSpell(Sequence):
     """Go meet Twilight and learn the two spells
     Requirements:
@@ -306,6 +317,7 @@ class GetMoney(Sequence):
     """
     def check(self, st: State):
         assert "broken_boulder" in st.status
+        assert "bucking" not in st.status
         st.assert_sun()
     def interact(self, st: State):
         applejack.touch(st) # talk to AJ
@@ -341,13 +353,13 @@ class GetMoney(Sequence):
             count += 1
         accept(); skip(2)
     def change(self, st: State):
-        st.status["broken_boulder"] = True
+        st.status["bucking"] = self.target_count
         st.money += 40 * self.target_count
 
 
 class GetTransformationBook(Sequence):
     """
-    Go to trixie and get the spell book
+    Go to Trixie and get the spell book
     Requirements:
     - Be a unicorn
     - Time is night
@@ -412,6 +424,7 @@ def break_second_shield_trixie(st: State):
         sleep(.8)
         skip(1)
         st.status['second_trixie_shield'] = True
+
 
 @logboth
 def go_to_zecora_hut(st: State):

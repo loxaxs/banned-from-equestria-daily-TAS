@@ -68,7 +68,7 @@ class Vinyl(Pony):
         skip(2)
         forward.do()
         center.click()
-        sleep(18)
+        sleep(17.5)
 
 
 class Trixie(Pony):
@@ -116,11 +116,12 @@ class PinkiePie(Pony):
 
 
 class Applejack(Pony):
-    wait = 16
+    wait = 13.5
     waitload = 19
     def check(self, st):
         self.pony_check(st)
         assert "broken_boulder" in st.status
+        assert st.status.get("bucking", 0) >= 3
         st.assert_sun()
     def _getting(self, st: State):
         applejack.touch(st)
@@ -155,6 +156,7 @@ class Fluttershy(Pony):
         accept() # Want it?
         skip(4); sleep(3)
     def change(self, st: State):
+        self.pony_change(st)
         st.status["fluttershy_asleep"] = True
 
 

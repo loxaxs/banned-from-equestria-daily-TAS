@@ -69,7 +69,7 @@ twibook = [
     BringBalloon(),
     LearnSpell(),
     Become(PonyKind.HORN),
-    DanceWithScareCrow(),
+    DanceWithScarecrow(),
     GetTransformationBook(),
     Trixie(),
     Goto(tree_house),
@@ -84,30 +84,51 @@ trixie_twice = [
     BringBalloon(),
     BuyMuffin(),
     EatMuffin(),
-    DanceWithScareCrow(),
+    DanceWithScarecrow(),
     Trixie(),
-    DanceWithScareCrow(),
+    DanceWithScarecrow(),
     TrixieAgain(),
 ]
 
 more_bullshit = [
     # time 0
     BringBalloon(),
-    BringBottle(), ##
+    BringWineBottle(), ##
     LearnSpell(),
     Become(PonyKind.HORN),
     Vinyl(), # time 1
     VinylRemixingTime(), ##
     FluttershySoManyWonders(), ##
     GetTransformationBook(),
-    DanceWithScareCrow(), # time 2
+    DanceWithScarecrow(), # time 2
     BringTransformationBook(), ##
     PinkiePie(), # time 3
-    DanceWithScareCrow(), # time 4
+    DanceWithScarecrow(), # time 4
     PinkiePieGoodbyeEquestria(), ##
     BreakBoulder(),
     CutieMarkCrusaders(), ##
-    Chrysalis(), # early end
+    # Chrysalis(), # early end
+    Zecora(),
+    Breakpoint(),
+    Trixie(),
+]
+
+main_six = [
+    Become(PonyKind.WING),
+    Breakpoint(), # get Rainbow Dash
+    Set(day=1, location=home),
+    Fluttershy(),
+    BringBalloon(),
+    LearnSpell(),
+    BreakBoulder(),
+    GetMoney(3),
+    HelpSpike(),
+    Applejack(),
+    Twilight(),
+    Become(PonyKind.HORN),
+    Breakpoint(), # go talk to Spike and Rarity and break the window open as needed
+    PinkiePie(),
+    # finally, help Spike get Rarity
 ]
 
 
@@ -131,7 +152,7 @@ def plan_and_run(*args):
 
 ###
 try:
-    plan_and_run(*more_bullshit)
+    plan_and_run(*main_six)
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:
