@@ -295,6 +295,7 @@ class BreakBoulder(Sequence):
     def check(self, st: State):
         assert "magic_attack_A" in st.status
         assert "broken_boulder" not in st.status
+        assert st.sun() or st.kind == PonyKind.HORN
     def interact(self, st: State):
         become(st, PonyKind.HORN)
         boulder.go(st)
@@ -303,6 +304,36 @@ class BreakBoulder(Sequence):
     def change(self, st: State):
         st.status["broken_boulder"] = True
         st.kind = PonyKind.HORN
+
+
+class RarityService(Sequence):
+    """Slice the fabric and ask for a kinded reward"""
+    def check(self, st: State):
+        st.assert_sun()
+    def interact(self, st: State):
+        become(st, PonyKind.HORN)
+        rarity_house.go(st)
+        center.click()
+        sleep(1)
+        skip(4)
+        agree()
+        skip(2)
+        high_left.click()
+        sleep(1)
+        skip(4)
+        agree()
+        skip(10)
+        back.click()
+        pos_chalkboard.click()
+        skip(2)
+        high_right.click() # go to the fabric
+        center.click() # slice it
+        skip()
+        back.click()
+        center.click() # talk to Rarity
+        skip(12)
+    def change(self, st: State):
+        st.status["rarity_service"] = True
 
 
 

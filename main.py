@@ -152,7 +152,7 @@ def plan_and_run(*args):
 
 ###
 try:
-    plan_and_run(*main_six)
+    plan_and_run(RarityService())
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:
