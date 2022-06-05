@@ -107,10 +107,7 @@ more_bullshit = [
     PinkiePieGoodbyeEquestria(), ##
     BreakBoulder(),
     CutieMarkCrusaders(), ##
-    # Chrysalis(), # early end
-    Zecora(),
-    Breakpoint(),
-    Trixie(),
+    Chrysalis(), # early end
 ]
 
 main_six = [
@@ -128,6 +125,33 @@ main_six = [
     RarityService(),
     PinkiePie(),
     Rarity(),
+]
+
+
+main_six_with_more_bullshit = [
+    BringBalloon(),
+    BringWineBottle(), ##
+    LearnSpell(),
+    BreakBoulder(),
+    CutieMarkCrusaders(), ##
+    GetMoney(3),
+    HelpSpike(),
+    Become(PonyKind.WING),
+    Breakpoint(), # get Rainbow Dash
+    Set(day=1, location=home),
+    Twilight(),
+    Become(PonyKind.HORN),
+    PinkiePie(),
+    GetTransformationBook(),
+    Fluttershy(),
+    PinkiePieGoodbyeEquestria(), ##
+    BringTransformationBook(), ##
+    RarityService(),
+    Applejack(),
+    Rarity(),
+    ###
+    # VinylRemixingTime and FluttershySoManyWonders cannot be obtained
+    # simultaneously to the main six ending
 ]
 
 
@@ -151,18 +175,7 @@ def plan_and_run(*args):
 
 ###
 try:
-    plan_and_run(
-        LearnSpell(),
-        BreakBoulder(),
-        GetMoney(2),
-        RarityService(),
-        HelpSpike(),
-        DanceWithScarecrow(),
-        Twilight(),
-        Become(PonyKind.HORN),
-        DanceWithScarecrow(),
-        Rarity(),
-    )
+    plan_and_run(*main_six_with_more_bullshit)
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:
