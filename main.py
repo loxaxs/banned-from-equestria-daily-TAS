@@ -175,7 +175,8 @@ def plan_and_run(*args):
 
 ###
 try:
-    plan_and_run(*main_six_with_more_bullshit)
+    # breakpoint()
+    plan_and_run(RainbowDash())
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:

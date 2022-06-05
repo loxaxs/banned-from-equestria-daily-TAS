@@ -1,3 +1,5 @@
+import time
+
 import pyautogui as pg
 
 from info import center, pos_agree, pos_accept
@@ -41,3 +43,11 @@ def sleep(duration: float, comment: str = ""):
     def nop(): pass
     print("sleep", end=" ")
     repeat(nop, pg.sleep, duration + TIME_RELAXATION, "done")
+
+def clicker(pos, *sleepList):
+    goal = time.time()
+    goal -= 0.30 # pg.sleep is usually late
+    for sleepTime in sleepList:
+        goal += sleepTime
+        pg.sleep(goal - time.time())
+        pos.click()
