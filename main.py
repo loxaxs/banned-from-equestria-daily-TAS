@@ -125,10 +125,9 @@ main_six = [
     HelpSpike(),
     Applejack(),
     Twilight(),
-    Become(PonyKind.HORN),
-    Breakpoint(), # go talk to Spike and Rarity and break the window open as needed
+    RarityService(),
     PinkiePie(),
-    # finally, help Spike get Rarity
+    Rarity(),
 ]
 
 
@@ -152,7 +151,18 @@ def plan_and_run(*args):
 
 ###
 try:
-    plan_and_run(RarityService())
+    plan_and_run(
+        LearnSpell(),
+        BreakBoulder(),
+        GetMoney(2),
+        RarityService(),
+        HelpSpike(),
+        DanceWithScarecrow(),
+        Twilight(),
+        Become(PonyKind.HORN),
+        DanceWithScarecrow(),
+        Rarity(),
+    )
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:

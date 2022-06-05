@@ -333,6 +333,7 @@ class RarityService(Sequence):
         center.click() # talk to Rarity
         skip(12)
     def change(self, st: State):
+        st.status["magic_attack_B"] = True
         st.status["rarity_service"] = True
 
 

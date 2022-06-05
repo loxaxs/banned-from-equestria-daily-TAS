@@ -61,6 +61,30 @@ class Twilight(Pony):
         sleep(1)
 
 
+class Rarity(Pony):
+    wait = 3
+    def check(self, st: State):
+        self.pony_check(st)
+        assert "Twilight" in st.gotten
+        assert "rarity_service" in st.status
+        assert "magic_attack_B" in st.status
+        st.assert_horn()
+        st.assert_moon()
+    def _getting(self, st: State):
+        spike_box.touch(st)
+        skip(5)
+        accept()
+        skip(2)
+        sleep(4)
+        skip(6)
+        rarity_window.touch(st)
+        sleep(2)
+        skip(7)
+        rarity_window.touch(st)
+        pos_center_square.click()
+        sleep(3)
+
+
 class Vinyl(Pony):
     def _getting(self, st: State):
         vinyl_disk.touch(st)
@@ -82,7 +106,7 @@ class Trixie(Pony):
         trixie.touch(st) # Zoom
         break_shield_trixie(st)
         skip()
-        pos_trixie_square.click(); sleep(1)
+        pos_center_square.click(); sleep(1)
         skip(5); sleep(3)
         skip(5); sleep(2.8)
 
@@ -99,7 +123,7 @@ class TrixieAgain(Pony):
         trixie.touch(st) # Zoom
         break_second_shield_trixie(st)
         skip()
-        pos_trixie_square.click()
+        pos_center_square.click()
         fast(4.2)
 
 
