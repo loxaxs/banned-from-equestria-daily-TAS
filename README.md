@@ -10,14 +10,18 @@ A bunch of functions and classes to play through Banned from Equestria (Daily) w
 Supports getting ponies:
 
 - Twilight
-- Vinyl
-- Trixie, twice
-- Pinkie Pie
+- Rarity
+- PinkiePie
 - Applejack
 - Fluttershy
+- Rainbow Dash
+
+- Vinyl
+- Trixie
+- Trixie, the second time
 - Derpy
 - Zecora
-- Chrysalis, bad end
+- Chrysalis, with the bad end
 
 Also supports sequences for:
 
@@ -36,8 +40,6 @@ Does not support:
 - Trixie
     - Talking to trixie after having taken the book from her
 - Getting:
-    - Rainbow Dash
-    - Rarity
     - Celestia
     - Luna
     - Big Macintosh
@@ -54,7 +56,7 @@ In a browser window, open two Banned from Equestria tabs and have no other tabs 
 
 ## Important note
 
-PyAutoGUI's `FAILSAFE` mode is enabled. This enables you to stop a macro by moving the mouse to the top left corner of the screen.
+PyAutoGUI's `FAILSAFE` mode is enabled. This enables you to stop a macro by moving the mouse to the top left corner of the screen. This will only work while the script is sending an input, not if the script is sleeping. In the latter case you can select the terminal windows and type Ctrl+C to interrupt the script.
 
 ## Getting luna
 
@@ -66,7 +68,7 @@ The fight against luna is easy if you can click fast enough and see each time yo
 - Keep your shield up by clicking 6 times on it (3-6 clicks are necessary to bring it up)
 - Once your shield is up, you can attack Luna
   - Don't attack Luna when your shield is down
-- When attacking Luna, don't be greedy as she will break your shield again pretty fast 
+- Luna breaks your shield as soon as you attack her, so you shouldn't hit her more than once or twice at a time.
 
 ## License
 
@@ -129,17 +131,3 @@ Here's what each file contains or does:
 - `pony_up.py` - Code to manage intercourse time with ponies
 - `sequence.py` - Sequence of actions that are combined in `main.py` to create scenarios
 - `util.py` - Logging decorators and list manipulation function(s).
-
-
-## Speed improvement ideas
-
-- Currently, when `skip(x)` is used, it always looses 0.1+ seconds after each action:
-  - 0.1 because of manual `sleep(0.1)` call
-  - probably more as it seems that `pyautogui.click()` incorporates some of it's own sleep() time
-    - (unsteady experience suggests a delay of 0.07 second per click)
-- Relying on detecting the screen, rather than only timings
-
-## Other improvements
-
-- The countdown used by `fast()` does not tick the second.
-  This is probably due to a sleep inserted after clicking by PyAutoGUI.
