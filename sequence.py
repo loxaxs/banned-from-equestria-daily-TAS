@@ -355,7 +355,8 @@ class GetMoney(Sequence):
         applejack.touch(st) # talk to AJ
         sleep(0.5); skip(6) # talk...
         print("bucking!")
-        smash(43, 3.3) # Send 43 clicks to buck the tree
+        center.click()
+        smash(41, 3.3) # Send 43 clicks to buck the tree
         center.click(); skip(2) # Talk to AJ
         st.money += 40
         if self.target_count <= 1:
@@ -363,14 +364,16 @@ class GetMoney(Sequence):
             return
         agree() # Continue bucking
         print("bucking again!")
-        smash(44, 3.3); skip(3) # Smash the click button to buck the tree
+        center.click()
+        smash(42, 3.3); skip(3) # Smash the click button to buck the tree
         st.money += 40
         if self.target_count <= 2:
             accept(); skip(2)
             return
         agree() # Continue bucking
         print("bucking a third time!")
-        smash(45, 3.3); skip(4) # Smash the click button to buck the tree
+        center.click()
+        smash(43, 3.3); skip(4) # Smash the click button to buck the tree
         accept(); skip(2) # Wanna go to the barn? -> No
         st.money += 40
         if self.target_count <= 3:
@@ -380,7 +383,8 @@ class GetMoney(Sequence):
         while count < self.target_count:
             agree()
             print(f"bucking a {count}th time")
-            smash(45, 3.8); skip(4)
+            center.click()
+            smash(41 + count, 3.8); skip(4)
             st.money += 40
             count += 1
         accept(); skip(2)

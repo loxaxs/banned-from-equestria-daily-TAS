@@ -112,7 +112,7 @@ more_bullshit = [
 
 main_six = [
     Become(PonyKind.WING),
-    Breakpoint(), # get Rainbow Dash
+    RainbowDash(), # get Rainbow Dash
     Set(day=1, location=home),
     Fluttershy(),
     BringBalloon(),
@@ -137,7 +137,7 @@ main_six_with_more_bullshit = [
     GetMoney(3),
     HelpSpike(),
     Become(PonyKind.WING),
-    Breakpoint(), # get Rainbow Dash
+    RainbowDash(),
     Set(day=1, location=home),
     Twilight(),
     Become(PonyKind.HORN),
@@ -176,7 +176,7 @@ def plan_and_run(*args):
 ###
 try:
     # breakpoint()
-    plan_and_run(RainbowDash())
+    plan_and_run(*trixie_twice)
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:
