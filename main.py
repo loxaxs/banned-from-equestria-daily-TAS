@@ -18,7 +18,7 @@ WINDOW_TITLE = 'BFEQ'
 @logcall
 def reload():
     """Reload the page and click through the introduction"""
-    pos_reload.click()
+    # pos_reload.click()
     pg.hotkey("ctrl", "pagedown")
     fast(5.9, "intro") # A bit brutal, could use more refinements (using `sleep`)
 
@@ -113,7 +113,6 @@ more_bullshit = [
 main_six = [
     Become(PonyKind.WING),
     RainbowDash(), # get Rainbow Dash
-    Set(day=1, location=home),
     Fluttershy(),
     BringBalloon(),
     LearnSpell(),
@@ -136,9 +135,7 @@ main_six_with_more_bullshit = [
     CutieMarkCrusaders(), ##
     GetMoney(3),
     HelpSpike(),
-    Become(PonyKind.WING),
     RainbowDash(),
-    Set(day=1, location=home),
     Twilight(),
     Become(PonyKind.HORN),
     PinkiePie(),
@@ -176,7 +173,7 @@ def plan_and_run(*args):
 ###
 try:
     # breakpoint()
-    plan_and_run(*trixie_twice)
+    plan_and_run(*main_six_with_more_bullshit)
 except (KeyboardInterrupt, pg.FailSafeException):
     print("interrupted")
 except Exception:

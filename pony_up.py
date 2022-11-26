@@ -226,6 +226,10 @@ class RainbowDash(Pony):
     def check(self, st: State):
         st.assert_sun()
 
+    def change(self, st: State):
+        self.pony_change(st)
+        st.kind = PonyKind.WING
+
     def _getting(self, st: State):
         home.go(st)
         become(st, PonyKind.WING)
@@ -268,9 +272,6 @@ class RainbowDash(Pony):
         pos_center_square.click()
         sleep(4)
 
-    def change(self, st: State):
-        st.kind = PonyKind.WING
-
 
 class Derpy(Pony):
     wait = 13.2
@@ -312,10 +313,10 @@ class Chrysalis(Pony):
         self.pony_check(st)
         assert "Zecora" not in st.gotten
 
-    def _getting(self, st: State):
-        go_to_zecora_hut(st)
-        fast(6)
-
     def change(self, st):
         self.pony_change(st)
         st.status["end"] = True
+
+    def _getting(self, st: State):
+        go_to_zecora_hut(st)
+        fast(6)

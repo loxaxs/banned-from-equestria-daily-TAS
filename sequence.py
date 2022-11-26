@@ -60,10 +60,10 @@ class Become(Sequence):
     kind: PonyKind
     def check(self, st: State):
         st.assert_sun()
-    def interact(self, st: State):
-        become(st, self.kind)
     def change(self, st: State):
         st.kind = self.kind
+    def interact(self, st: State):
+        become(st, self.kind)
 
 
 class Breakpoint(Sequence):
@@ -135,14 +135,14 @@ class BuyMuffin(Sequence):
     def check(self, st: State):
         assert st.status.get("muffin", 0) == 0
         assert st.money >= 3
+    def change(self, st: State):
+        st.status["muffin"] = 1
     def interact(self, st: State):
         mrs_cake.touch(st)
         skip()
         agree()
         st.money -= 3
         skip()
-    def change(self, st: State):
-        st.status["muffin"] = 1
 
 
 class EatMuffin(Sequence):
@@ -154,6 +154,9 @@ class EatMuffin(Sequence):
     """
     def check(self, st: State):
         assert st.status.get("muffin", 0) > 0
+    def change(self, st: State):
+        st.status["muffin"] = 0
+        st.status["shield_breaker_B"] = True
     def interact(self, st: State):
         with inventory:
             sleep(.2)
@@ -161,9 +164,6 @@ class EatMuffin(Sequence):
             sleep(.2)
             pos_inventory_yes.click()
             skip()
-    def change(self, st: State):
-        st.status["muffin"] = 0
-        st.status["shield_breaker_B"] = True
 
 
 class HelpSpike(Sequence):
@@ -179,6 +179,9 @@ class HelpSpike(Sequence):
         assert st.money >= 50
         assert "magic_attack_A" in st.status # i.e. we met Twilight
         st.assert_sun()
+    def change(self, st: State):
+        st.status["spike_service"] = True
+        st.kind = PonyKind.WING
     def interact(self, st: State):
         station_desk_pony.touch(st)
         skip(2)
@@ -193,9 +196,6 @@ class HelpSpike(Sequence):
         sleep(3.7)
         skip(5)
         back.click()
-    def change(self, st: State):
-        st.status["spike_service"] = True
-        st.kind = PonyKind.WING
 
 
 class VinylRemixingTime(Sequence):
@@ -210,6 +210,8 @@ class FluttershySoManyWonders(Sequence):
     def check(self, st):
         assert "fluttershy_asleep" not in st.status
         st.assert_moon()
+    def change(self, st: State):
+        st.status["fluttershy_asleep"] = True
     def interact(self, st):
         from pony_up import Fluttershy
         Fluttershy.start(st)
@@ -222,8 +224,6 @@ class FluttershySoManyWonders(Sequence):
         skip(3)
         fluttershy_window.touch(st)
         skip(5)
-    def change(self, st: State):
-        st.status["fluttershy_asleep"] = True
 
 
 class BringTransformationBook(Sequence):
@@ -270,6 +270,10 @@ class LearnSpell(Sequence):
     """
     def check(self, st: State):
         st.assert_sun()
+    def change(self, st: State):
+        encounter_twilight(st)
+        st.status["magic_attack_A"] = True
+        st.status["shield_breaker_A"] = True
     def interact(self, st: State):
         tree_house.go(st)
         center.click()
@@ -279,10 +283,6 @@ class LearnSpell(Sequence):
         for k in range(2):
             twilight_book.touch(st, 0)
             skip(2)
-    def change(self, st: State):
-        encounter_twilight(st)
-        st.status["magic_attack_A"] = True
-        st.status["shield_breaker_A"] = True
 
 
 class BreakBoulder(Sequence):
@@ -296,20 +296,24 @@ class BreakBoulder(Sequence):
         assert "magic_attack_A" in st.status
         assert "broken_boulder" not in st.status
         assert st.sun() or st.kind == PonyKind.HORN
+    def change(self, st: State):
+        st.status["broken_boulder"] = True
+        st.kind = PonyKind.HORN
     def interact(self, st: State):
         become(st, PonyKind.HORN)
         boulder.go(st)
         center.click() # break boulder
         sleep(3); skip(12) # wait during scene then skip dialog
-    def change(self, st: State):
-        st.status["broken_boulder"] = True
-        st.kind = PonyKind.HORN
 
 
 class RarityService(Sequence):
     """Slice the fabric and ask for a kinded reward"""
     def check(self, st: State):
         st.assert_sun()
+    def change(self, st: State):
+        st.status["magic_attack_B"] = True
+        st.status["rarity_service"] = True
+        st.kind = PonyKind.HORN
     def interact(self, st: State):
         become(st, PonyKind.HORN)
         rarity_house.go(st)
@@ -332,9 +336,6 @@ class RarityService(Sequence):
         back.click()
         center.click() # talk to Rarity
         skip(12)
-    def change(self, st: State):
-        st.status["magic_attack_B"] = True
-        st.status["rarity_service"] = True
 
 
 
