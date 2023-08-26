@@ -161,7 +161,7 @@ def plan_and_run(*args):
     # running
     sleep(0.5)
     place_window(window_title=WINDOW_TITLE)
-    reload()
+    # reload()
     beginning = time.time()
     st = State(home, PonyKind.EARTH, 0, 0, dict(), set())
     for sequence in args:

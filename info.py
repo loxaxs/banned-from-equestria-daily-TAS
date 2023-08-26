@@ -9,7 +9,10 @@ def place_window(window_title):
     browser_window: pg.Window
     [browser_window] = pg.getWindowsWithTitle(window_title)
     browser_window.moveTo(-8, -8)
-    browser_window.resizeTo(newWidth=875, newHeight=710)
+    browser_window.resizeTo(
+        newWidth=int(Pos.base_window_height * Pos.size_factor * 1.25),
+        newHeight=int((Pos.base_window_height - Pos.y_offset) * Pos.size_factor + Pos.y_offset),
+    )
     browser_window.activate()
 
 # Base position

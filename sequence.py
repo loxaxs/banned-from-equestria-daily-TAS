@@ -427,7 +427,8 @@ def encounter_twilight(st: State):
 @logboth
 def encounter_trixie(st: State):
     if 'trixie1' not in st.status:
-        skip(8)
+        sleep(.2)
+        skip(7)
         st.status['trixie1'] = True
     elif 'trixie2' not in st.status:
         pass

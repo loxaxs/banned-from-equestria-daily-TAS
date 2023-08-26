@@ -62,12 +62,20 @@ class Pos(Pair):
     """
     A pos is a pair of coordinates that can be clicked (and hovered).
     """
+    size_factor = 2
+    y_offset = 80
+    base_window_height = 700
     def hover(self):
-        pg.moveTo(*self)
+        pg.moveTo(
+            int(self.x * self.size_factor),
+            int((self.y - self.y_offset) * self.size_factor + self.y_offset),
+        )
 
     def click(self):
-        pg.click(*self)
-
+        pg.click(
+            int(self.x * self.size_factor),
+            int((self.y - self.y_offset) * self.size_factor + self.y_offset),
+        )
 
 @dataclass
 class Move:
